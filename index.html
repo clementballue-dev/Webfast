@@ -3,171 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAgency | Ton site clé en main</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>📸 ScanDevoirs AI - Vision</title>
     <style>
-        #brief-section { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        :root {
+            --bg: #0f172a; --card: #1e293b; --text: #f8fafc;
+            --accent: #38bdf8; --secondary: #818cf8;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
+        .app-container { background: var(--card); padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: var(--accent); text-align: center; margin: 0 0 5px 0; }
+        .tagline { text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px; }
+        
+        /* Zone de saisie */
+        textarea { width: 100%; height: 80px; background: #0f172a; color: white; border: 1px solid #475569; border-radius: 12px; padding: 12px; box-sizing: border-box; margin-bottom: 10px; outline: none; resize: none; }
+        
+        /* Zone Photo */
+        .photo-zone { border: 2px dashed #475569; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: 0.3s; }
+        .photo-zone:hover { border-color: var(--accent); background: rgba(56, 189, 248, 0.05); }
+        #preview { max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 10px; display: none; }
+        
+        /* Boutons */
+        .btn-group { display: flex; gap: 10px; }
+        button { flex: 1; background: linear-gradient(135deg, var(--accent), var(--secondary)); color: #0f172a; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.2s; }
+        .btn-config { flex: 0.2; background: #334155; color: white; }
+        button:active { transform: scale(0.96); }
+
+        /* Résultats */
+        #result { margin-top: 20px; padding: 15px; background: rgba(15, 23, 42, 0.5); border-radius: 12px; border: 1px solid var(--accent); display: none; line-height: 1.5; font-size: 0.95rem; }
+        .loader { display: none; text-align: center; margin: 15px; color: var(--accent); animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
+<body>
 
-    <nav class="p-6 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
-        <h1 class="text-2xl font-bold text-indigo-600">Web<span class="text-slate-800">Fast</span></h1>
-        <a href="#offres" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition font-semibold">Commander</a>
-    </nav>
-
-    <div id="main-content" class="fade-in">
-        <header class="py-20 px-6 text-center bg-gradient-to-b from-white to-slate-50">
-            <h2 class="text-5xl font-extrabold mb-6 italic text-slate-800 underline decoration-indigo-500 text-balance">Ton site pro, maintenant.</h2>
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto">Choisissez votre pack, remplissez le brief et payez en toute sécurité.</p>
-        </header>
-
-        <section id="offres" class="py-10 px-6 max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                
-                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:scale-105 transition-all">
-                    <div class="text-indigo-600 text-4xl mb-4"><i class="fas fa-rocket"></i></div>
-                    <h4 class="text-2xl font-bold mb-2">Landing Page</h4>
-                    <div class="text-4xl font-black mb-8 text-indigo-600">75€</div>
-                    <button onclick="showBrief('Landing Page', 75)" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">Prendre ce pack</button>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-2xl border-2 border-indigo-600 transform scale-110 relative z-10">
-                    <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Le Plus Choisi</span>
-                    <div class="text-indigo-600 text-4xl mb-4"><i class="fas fa-store"></i></div>
-                    <h4 class="text-2xl font-bold mb-2 text-indigo-600">Site Vitrine Pro</h4>
-                    <div class="text-4xl font-black mb-8">150€</div>
-                    <button onclick="showBrief('Site Vitrine', 150)" class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition shadow-xl shadow-indigo-200">Prendre ce pack</button>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:scale-105 transition-all">
-                    <div class="text-indigo-600 text-4xl mb-4"><i class="fas fa-shopping-cart"></i></div>
-                    <h4 class="text-2xl font-bold mb-2">E-Commerce</h4>
-                    <div class="text-4xl font-black mb-8 text-indigo-600">200€</div>
-                    <button onclick="showBrief('E-Commerce', 200)" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">Prendre ce pack</button>
-                </div>
-            </div>
-        </section>
+<div class="app-container">
+    <h1>ScanDevoirs 📸</h1>
+    <p class="tagline">Prends ton exercice en photo et l'IA s'en occupe.</p>
+    
+    <div class="photo-zone" onclick="document.getElementById('fileInput').click()">
+        <span>Click pour ajouter une photo 🖼️</span>
+        <input type="file" id="fileInput" hidden accept="image/*" onchange="previewImage(event)">
+        <img id="preview">
     </div>
 
-    <section id="brief-section" class="py-20 px-6 max-w-3xl mx-auto fade-in">
-        <button onclick="goBack()" class="text-indigo-600 mb-6 flex items-center gap-2 hover:underline font-bold text-lg"><i class="fas fa-arrow-left"></i> Retour</button>
-        <div class="bg-white p-10 rounded-3xl shadow-2xl border border-slate-100">
-            <h3 class="text-3xl font-bold mb-2 text-slate-800">Personnaliser ma <span id="selected-pack-name" class="text-indigo-600"></span></h3>
-            <p class="text-slate-400 mb-10 italic border-b pb-6">Complétez ces informations avant le paiement.</p>
-            
-            <form id="orderForm" class="space-y-6">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block font-bold mb-2 text-slate-700 uppercase text-xs">Nom Entreprise</label>
-                        <input type="text" id="company" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Ex: Jean Coiffure">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-2 text-slate-700 uppercase text-xs">Domaine d'activité</label>
-                        <input type="text" id="domain" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Ex: Coach, Restaurant">
-                    </div>
-                </div>
+    <textarea id="userInput" placeholder="Optionnel : Ajoute une consigne (ex: Explique l'étape 2)..."></textarea>
+    
+    <div class="btn-group">
+        <button onclick="askAI()">ANALYSER & RÉSOUDRE</button>
+        <button class="btn-config" onclick="configKey()">⚙️</button>
+    </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block font-bold mb-2 text-slate-700 uppercase text-xs">Contact (Email/Tel)</label>
-                        <input type="text" id="contact" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition" placeholder="Pour vous répondre">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-2 text-indigo-600 font-black uppercase text-xs italic underline">Délai souhaité</label>
-                        <input type="text" id="deadline" required class="w-full p-4 bg-indigo-50 border border-indigo-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition" placeholder="Ex: 1 semaine, Urgent...">
-                    </div>
-                </div>
+    <div class="loader" id="loader">L'IA regarde ta photo... 👀</div>
 
-                <div>
-                    <label class="block font-bold mb-2 text-slate-700 uppercase text-xs">Texte particulier (Détails du projet)</label>
-                    <textarea id="details" required rows="5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition" placeholder="Couleurs souhaitées, pages spécifiques, exemples..."></textarea>
-                </div>
+    <div id="result">
+        <div id="aiResponse"></div>
+    </div>
+</div>
 
-                <div class="p-6 bg-slate-900 rounded-2xl flex justify-between items-center mb-8">
-                    <span class="font-bold text-white">Total à régler :</span>
-                    <span class="font-black text-3xl text-indigo-400"><span id="selected-pack-price"></span>€</span>
-                </div>
+<script>
+    let base64Image = "";
 
-                <button type="submit" id="submitBtn" class="w-full py-5 bg-indigo-600 text-white font-black rounded-xl text-xl hover:bg-indigo-700 transition shadow-xl">
-                    VALIDER ET PAYER PAR CARTE
-                </button>
-            </form>
-        </div>
-    </section>
+    function configKey() {
+        const key = prompt("Entre ta clé API Gemini :");
+        if (key) localStorage.setItem('gemini_api_key', key);
+    }
 
-    <footer class="py-12 text-center text-slate-400">
-        <p>&copy; 2026 WebFast Agency. Tous droits réservés.</p>
-    </footer>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview').src = e.target.result;
+            document.getElementById('preview').style.display = "block";
+            base64Image = e.target.result.split(',')[1]; // On garde juste la data
+        };
+        reader.readAsDataURL(file);
+    }
 
-    <script>
-        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477598730264772679/16ODuCOw4MrUgsr2Rb5R8h5kESCXYLlEOoyq3BYZSJ1Jcr2hlAsONG0fHs68SuueJAW-"; 
+    async function askAI() {
+        const text = document.getElementById('userInput').value || "Résous cet exercice proprement.";
+        const KEY = localStorage.getItem('gemini_api_key');
+        if (!KEY) return configKey();
 
-        // --- CONFIGURATION DES LIENS STRIPE ---
-        const STRIPE_LINKS = {
-            "75": "https://buy.stripe.com/test_28E5kv3Xc1TebL41MCg3600", 
-            "150": "https://buy.stripe.com/test_28E5kv3Xc1TebL41MCg3600",
-            "200": "https://buy.stripe.com/test_28E5kv3Xc1TebL41MCg3600"
+        document.getElementById('loader').style.display = "block";
+        document.getElementById('result').style.display = "none";
+
+        const payload = {
+            contents: [{
+                parts: [
+                    { text: "Tu es un tuteur. Analyse cette image, extrais l'exercice et donne la solution expliquée : " + text },
+                    ...(base64Image ? [{ inline_data: { mime_type: "image/jpeg", data: base64Image } }] : [])
+                ]
+            }]
         };
 
-        function showBrief(name, price) {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('brief-section').style.display = 'block';
-            document.getElementById('selected-pack-name').innerText = name;
-            document.getElementById('selected-pack-price').innerText = price;
-            window.scrollTo(0,0);
-        }
-
-        function goBack() {
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('brief-section').style.display = 'none';
-        }
-
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const price = document.getElementById('selected-pack-price').innerText;
-            
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Envoi du brief...";
-            btn.disabled = true;
-
-            const message = {
-                content: "🚨 **NOUVELLE COMMANDE + PAIEMENT EN COURS !**",
-                embeds: [{
-                    title: "Briefing du Projet",
-                    color: 3447003,
-                    fields: [
-                        { name: "Pack Choisi", value: "**" + document.getElementById('selected-pack-name').innerText + "**", inline: true },
-                        { name: "Prix Global", value: "**" + price + "€**", inline: true },
-                        { name: "⌛ Délai souhaité", value: document.getElementById('deadline').value, inline: true },
-                        { name: "🏢 Entreprise", value: document.getElementById('company').value },
-                        { name: "🏷️ Domaine", value: document.getElementById('domain').value },
-                        { name: "📱 Contact", value: document.getElementById('contact').value },
-                        { name: "📝 Instructions Particulières", value: "```" + document.getElementById('details').value + "```" }
-                    ],
-                    footer: { text: "Suivi WebFast" },
-                    timestamp: new Date()
-                }]
-            };
-
-            fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(message)
-            })
-            .then(() => {
-                btn.innerHTML = "Redirection vers Stripe...";
-                window.location.href = STRIPE_LINKS[price];
-            })
-            .catch(() => {
-                alert("Erreur réseau. Réessayez.");
-                btn.disabled = false;
-                btn.innerText = "VALIDER ET PAYER PAR CARTE";
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
             });
-        });
-    </script>
+
+            const data = await response.json();
+            const output = data.candidates[0].content.parts[0].text;
+            
+            document.getElementById('aiResponse').innerHTML = "<b>Analyse terminée :</b><br><br>" + output.replace(/\n/g, "<br>");
+            document.getElementById('result').style.display = "block";
+        } catch (e) {
+            alert("Erreur. Vérifie ta clé ou la taille de l'image.");
+        } finally {
+            document.getElementById('loader').style.display = "none";
+        }
+    }
+</script>
+
 </body>
 </html>
