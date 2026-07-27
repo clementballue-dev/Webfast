@@ -1,12 +1,1 @@
-.env# Sécurité : NE JAMAIS PUBLIER LA CLÉ
-.env
 
-# Dépendances : Inutile de les envoyer (trop lourd)
-node_modules/
-
-# Fichiers système inutiles
-.DS_Store
-Thumbs.db
-
-# Logs d'erreurs
-npm-debug.log*
