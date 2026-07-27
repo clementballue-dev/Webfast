@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Chat</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#202123;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.chat{
+width:900px;
+height:600px;
+background:#2b2d31;
+border-radius:15px;
+display:flex;
+overflow:hidden;
+box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+.left{
+width:250px;
+background:#1e1f22;
+padding:20px;
+color:white;
+}
+
+.left h2{
+margin-bottom:20px;
+}
+
+.user{
+padding:12px;
+background:#313338;
+margin-bottom:10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.right{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.messages{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+.msg{
+background:#5865F2;
+padding:12px;
+color:white;
+margin-bottom:15px;
+border-radius:12px;
+width:max-content;
+max-width:70%;
+}
+
+.bottom{
+display:flex;
+padding:15px;
+background:#1e1f22;
+}
+
+input{
+flex:1;
+padding:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+margin-left:10px;
+padding:15px 30px;
+background:#5865F2;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="chat">
+
+<div class="left">
+<h2>Utilisateurs</h2>
+
+<div class="user">🟢 Alice</div>
+<div class="user">🟢 Bob</div>
+<div class="user">🟢 Thomas</div>
+
+</div>
+
+<div class="right">
+
+<div class="messages" id="messages">
+
+<div class="msg">Bonjour 👋</div>
+
+</div>
+
+<div class="bottom">
+
+<input
+id="message"
+placeholder="Écrire un message..."
+>
+
+<button onclick="envoyer()">
+Envoyer
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function envoyer(){
+
+let texte=document.getElementById("message").value;
+
+if(texte=="") return;
+
+let zone=document.getElementById("messages");
+
+zone.innerHTML+=`
+<div class="msg">${texte}</div>
+`;
+
+document.getElementById("message").value="";
+
+zone.scrollTop=zone.scrollHeight;
+
+}
+
+</script>
+
+</body>
+</html>
 
